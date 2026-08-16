@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "A patient's appointment booking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "patientName": { "type": "string" },
+        "patientEmail": { "type": "string" },
+        "patientPhone": { "type": "string" },
+        "service": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "time": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled", "completed"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientName", "patientEmail", "patientPhone", "service", "date", "time", "status", "createdAt"]
+    },
+    "ClinicInfo": {
+      "title": "ClinicInfo",
+      "description": "General information about the clinic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "hours": { "type": "object" }
+      }
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Patient review and feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "patientName": { "type": "string" },
+        "location": { "type": "string" },
+        "condition": { "type": "string" },
+        "category": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "verified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientName", "rating", "comment", "category", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Collection of patient appointments"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Collection of patient reviews and testimonials"
+    },
+    "/clinic/info": {
+      "schema": "ClinicInfo",
+      "description": "Clinic general information"
+    }
+  }
+}
