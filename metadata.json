@@ -1,0 +1,6 @@
+{
+  "name": "AcuMeD Acupuncture & Herbs Clinic",
+  "description": "AcuMeD Clinic in Watertown, MA provides expert acupuncture, herbal medicine, and holistic treatments for pain, infertility, PMS, and more, led by Dr. Mostafa Medhati.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
