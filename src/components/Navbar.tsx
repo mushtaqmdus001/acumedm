@@ -3,6 +3,7 @@ import { Menu, X, Phone, Calendar, Sparkles, Mic } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
 import { CLINIC_INFO, IMAGES } from '../constants';
+import acumedLogo from '../assets/images/acumed-logo.png';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,14 +34,17 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                Ac
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 leading-tight">AcuMeD Clinic</span>
-                <span className="text-[10px] uppercase tracking-widest text-teal-600 font-semibold">Acupuncture & Herbs</span>
-              </div>
+            <Link
+              to="/"
+              className="flex items-center"
+              aria-label="AcuMeD Clinic Home"
+            >
+              {/* Official AcuMeD logo. Keep the source file in src/assets/images/acumed-logo.png. */}
+              <img
+                src={acumedLogo}
+                alt="AcuMeD Clinic"
+                className="h-12 sm:h-14 w-auto object-contain"
+              />
             </Link>
           </div>
 

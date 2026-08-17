@@ -16,10 +16,96 @@ import {
   Award,
   HeartPulse
 } from 'lucide-react';
-import { SERVICES, CLINIC_INFO, IMAGES } from '../constants';
+import { CLINIC_INFO, IMAGES } from '../constants';
 import { cn } from '../lib/utils';
 import { Testimonials } from '../components/Testimonials';
 import { ServiceIcon } from '../components/ServiceIcon';
+
+// Service images are stored under src/assets/images/services so Vite bundles them correctly.
+import acupunctureImg from '../assets/images/services/acupuncture.png';
+import herbalMedicineImg from '../assets/images/services/herbal-medicine.png';
+import hijamaCuppingImg from '../assets/images/services/hijama-cupping.png';
+import earAcupunctureImg from '../assets/images/services/ear-acupuncture-microsystem.png';
+import neuroMeridianImg from '../assets/images/services/neuro-meridian-acupuncture.png';
+import neuroScalpImg from '../assets/images/services/neuro-acupuncture-scalp-acupuncture.png';
+import japaneseAcupunctureImg from '../assets/images/services/japanese-acupuncture.png';
+import persianMedicineImg from '../assets/images/services/traditional-persian-medicine.png';
+import nonInsertionImg from '../assets/images/services/non-insertion-needling.png';
+import combinationTherapyImg from '../assets/images/services/combination-therapy.png';
+
+// Services migrated from the original AcuMeD HTML site. Images are imported from src/assets/images/services so Vite can bundle them.
+const SERVICES = [
+  {
+    id: 'acupuncture',
+    iconId: 'acupuncture',
+    title: 'Acupuncture',
+    description: 'Stimulate your body\'s natural healing by targeting specific meridian points. Effective for pain relief, stress, infertility, and systemic conditions.',
+    image: acupunctureImg,
+  },
+  {
+    id: 'herbal-medicine',
+    iconId: 'herbs',
+    title: 'Herbal Medicine',
+    description: 'Herbal medicine has been used for centuries to support health, restore balance, and promote the body\'s natural healing processes.',
+    image: herbalMedicineImg,
+  },
+  {
+    id: 'hijama-cupping',
+    iconId: 'cupping',
+    title: 'Hijama / Cupping',
+    description: 'An ancient therapeutic technique using suction cups to improve blood circulation, release muscle tension, and clear toxins from the body.',
+    image: hijamaCuppingImg,
+  },
+  {
+    id: 'ear-acupuncture-microsystem',
+    iconId: 'microsystem',
+    title: 'Ear Acupuncture (Microsystem)',
+    description: 'A specialized technique where the entire body is mapped on the ear. Precise needling of ear points treats systemic conditions through the body\'s microsystem.',
+    image: earAcupunctureImg,
+  },
+  {
+    id: 'neuro-meridian-acupuncture',
+    iconId: 'movingqi',
+    title: 'Neuro Meridian Acupuncture',
+    description: 'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
+    image: neuroMeridianImg,
+  },
+  {
+    id: 'neuro-acupuncture-scalp-acupuncture',
+    iconId: 'neroscalp',
+    title: 'Neuro-Acupuncture (Scalp Acupuncture)',
+    description: 'Neuro-acupuncture, also known as scalp acupuncture, is an advanced treatment approach that combines traditional acupuncture principles with modern neuroscience.',
+    image: neuroScalpImg,
+  },
+  {
+    id: 'japanese-acupuncture',
+    iconId: 'movingqi',
+    title: 'Japanese Acupuncture',
+    description: 'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
+    image: japaneseAcupunctureImg,
+  },
+  {
+    id: 'traditional-persian-medicine',
+    iconId: 'avicenna',
+    title: 'Traditional Persian Medicine',
+    description: 'Rooted in Avicenna\'s Canon of Medicine, this ancient system uses diet, herbal remedies, and lifestyle medicine to restore harmony between mind, body, and spirit.',
+    image: persianMedicineImg,
+  },
+  {
+    id: 'non-insertion-needling',
+    iconId: 'moxibustion',
+    title: 'Non-insertion needling',
+    description: '(Non-insertion needling (also called contact needling) is an acupuncture technique in which the practitioner uses an acupuncture needle or a blunt metal tool to touch, tap, stroke, press, or lightly stimulate the acupoint without penetrating the skin.',
+    image: nonInsertionImg,
+  },
+  {
+    id: 'combination-therapy',
+    iconId: 'combination',
+    title: 'Combination Therapy',
+    description: 'Synergistic treatment plans combining acupuncture and herbal medicine for enhanced, faster, and longer-lasting therapeutic outcomes.',
+    image: combinationTherapyImg,
+  },
+] as const;
 
 export function Home() {
   const triggerAiWithPrompt = (prompt: string) => {
@@ -91,7 +177,7 @@ export function Home() {
                   <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Patients Helped</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-gray-900">4.9</span>
+                  <span className="text-2xl font-bold text-gray-900">5.0</span>
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                     <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Google Rating</span>
@@ -202,7 +288,7 @@ export function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute bottom-4 left-4 right-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-between">
                     <div className="w-12 h-12 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/60">
-                      <ServiceIcon serviceId={service.id} className="w-10 h-10 rounded-xl" iconClassName="w-5 h-5" />
+                      <ServiceIcon serviceId={service.iconId} className="w-10 h-10 rounded-xl" iconClassName="w-5 h-5" />
                     </div>
                     <span className="text-[11px] font-bold bg-white/90 backdrop-blur-md text-teal-900 px-3 py-1.5 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
                       Holistic Care
@@ -211,7 +297,7 @@ export function Home() {
                 </div>
                 <div className="p-8">
                   <div className="flex items-center gap-3 mb-3">
-                    <ServiceIcon serviceId={service.id} className="w-7 h-7 rounded-lg shrink-0" iconClassName="w-3.5 h-3.5" />
+                    <ServiceIcon serviceId={service.iconId} className="w-7 h-7 rounded-lg shrink-0" iconClassName="w-3.5 h-3.5" />
                     <h4 className="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{service.title}</h4>
                   </div>
                   <p className="text-gray-600 leading-relaxed">
