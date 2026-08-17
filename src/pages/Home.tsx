@@ -1,27 +1,22 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import {
-  Calendar,
-  Phone,
-  CheckCircle,
   ArrowRight,
-  Star,
-  MapPin,
+  Calendar,
+  CheckCircle,
   Clock,
+  HeartPulse,
   Mail,
-  Sparkles,
-  Mic,
-  MessageSquare,
+  MapPin,
+  Phone,
   ShieldCheck,
-  Award,
-  HeartPulse
+  Star,
 } from 'lucide-react';
 import { CLINIC_INFO, IMAGES } from '../constants';
-import { cn } from '../lib/utils';
-import { Testimonials } from '../components/Testimonials';
 import { ServiceIcon } from '../components/ServiceIcon';
 
-// Service images are stored under src/assets/images/services so Vite bundles them correctly.
+// Service images migrated from the attached AcuMeD HTML.
+// Keep these files under src/assets/images/services/.
 import acupunctureImg from '../assets/images/services/acupuncture.png';
 import herbalMedicineImg from '../assets/images/services/herbal-medicine.png';
 import hijamaCuppingImg from '../assets/images/services/hijama-cupping.png';
@@ -33,222 +28,334 @@ import persianMedicineImg from '../assets/images/services/traditional-persian-me
 import nonInsertionImg from '../assets/images/services/non-insertion-needling.png';
 import combinationTherapyImg from '../assets/images/services/combination-therapy.png';
 
-// Services migrated from the original AcuMeD HTML site. Images are imported from src/assets/images/services so Vite can bundle them.
 const SERVICES = [
   {
     id: 'acupuncture',
     iconId: 'acupuncture',
     title: 'Acupuncture',
-    description: 'Stimulate your body\'s natural healing by targeting specific meridian points. Effective for pain relief, stress, infertility, and systemic conditions.',
+    description:
+      "Stimulate your body's natural healing by targeting specific meridian points. Effective for pain relief, stress, infertility, and systemic conditions.",
     image: acupunctureImg,
   },
   {
     id: 'herbal-medicine',
     iconId: 'herbs',
     title: 'Herbal Medicine',
-    description: 'Herbal medicine has been used for centuries to support health, restore balance, and promote the body\'s natural healing processes.',
+    description:
+      "Herbal medicine has been used for centuries to support health, restore balance, and promote the body's natural healing processes.",
     image: herbalMedicineImg,
   },
   {
     id: 'hijama-cupping',
     iconId: 'cupping',
     title: 'Hijama / Cupping',
-    description: 'An ancient therapeutic technique using suction cups to improve blood circulation, release muscle tension, and clear toxins from the body.',
+    description:
+      'An ancient therapeutic technique using suction cups to improve blood circulation, release muscle tension, and clear toxins from the body.',
     image: hijamaCuppingImg,
   },
   {
     id: 'ear-acupuncture-microsystem',
     iconId: 'microsystem',
     title: 'Ear Acupuncture (Microsystem)',
-    description: 'A specialized technique where the entire body is mapped on the ear. Precise needling of ear points treats systemic conditions through the body\'s microsystem.',
+    description:
+      "A specialized technique where the entire body is mapped on the ear. Precise needling of ear points treats systemic conditions through the body's microsystem.",
     image: earAcupunctureImg,
   },
   {
     id: 'neuro-meridian-acupuncture',
     iconId: 'movingqi',
     title: 'Neuro Meridian Acupuncture',
-    description: 'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
+    description:
+      'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
     image: neuroMeridianImg,
   },
   {
     id: 'neuro-acupuncture-scalp-acupuncture',
     iconId: 'neroscalp',
     title: 'Neuro-Acupuncture (Scalp Acupuncture)',
-    description: 'Neuro-acupuncture, also known as scalp acupuncture, is an advanced treatment approach that combines traditional acupuncture principles with modern neuroscience.',
+    description:
+      'Neuro-acupuncture, also known as scalp acupuncture, is an advanced treatment approach that combines traditional acupuncture principles with modern neuroscience.',
     image: neuroScalpImg,
   },
   {
     id: 'japanese-acupuncture',
     iconId: 'movingqi',
     title: 'Japanese Acupuncture',
-    description: 'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
+    description:
+      'A refined, ultra-gentle style of acupuncture focused on moving and balancing Qi. Uses thinner needles and palpation-based diagnosis for precision care.',
     image: japaneseAcupunctureImg,
   },
   {
     id: 'traditional-persian-medicine',
     iconId: 'avicenna',
     title: 'Traditional Persian Medicine',
-    description: 'Rooted in Avicenna\'s Canon of Medicine, this ancient system uses diet, herbal remedies, and lifestyle medicine to restore harmony between mind, body, and spirit.',
+    description:
+      "Rooted in Avicenna's Canon of Medicine, this ancient system uses diet, herbal remedies, and lifestyle medicine to restore harmony between mind, body, and spirit.",
     image: persianMedicineImg,
   },
   {
     id: 'non-insertion-needling',
     iconId: 'moxibustion',
-    title: 'Non-insertion needling',
-    description: '(Non-insertion needling (also called contact needling) is an acupuncture technique in which the practitioner uses an acupuncture needle or a blunt metal tool to touch, tap, stroke, press, or lightly stimulate the acupoint without penetrating the skin.',
+    title: 'Non-insertion Needling',
+    description:
+      'Also called contact needling, this gentle technique touches, taps, strokes, presses, or lightly stimulates acupuncture points without penetrating the skin.',
     image: nonInsertionImg,
   },
   {
     id: 'combination-therapy',
     iconId: 'combination',
     title: 'Combination Therapy',
-    description: 'Synergistic treatment plans combining acupuncture and herbal medicine for enhanced, faster, and longer-lasting therapeutic outcomes.',
+    description:
+      'Synergistic treatment plans combining acupuncture and herbal medicine for enhanced, faster, and longer-lasting therapeutic outcomes.',
     image: combinationTherapyImg,
   },
 ] as const;
 
+const CONDITIONS = [
+  'Chronic Pain',
+  'Back & Neck Pain',
+  'Headaches & Migraines',
+  'Infertility & IVF Support',
+  'Mens Issue',
+  'PMS & Menstrual Disorders',
+  'Anxiety & Stress',
+  'Depression & Fatigue',
+  'Low Mood',
+  'Neuropathy',
+  'Shoulder Disorder',
+  'Insomnia & Sleep Issues',
+  'Gastrointestinal (GI) / Digestive Disorders',
+  'Arthritis & Joint Pain',
+  'Fibromyalgia',
+  'Allergies & Sinusitis',
+  'Immune System Support',
+  'Post-Stroke Recovery',
+  'Sports Injuries',
+  'Carpal Tunnel Syndrome',
+  'Sciatica',
+  'Thyroid Disorders',
+  'Skin Conditions',
+  'Weight Management',
+  'Smoking Cessation',
+  'High Blood Pressure',
+  'Respiratory Conditions',
+] as const;
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "After years of chronic back pain and failed conventional treatments, Dr. Medhati's acupuncture sessions gave me my life back. Within 6 visits I felt a dramatic improvement.",
+    initials: 'SR',
+    name: 'Sarah R.',
+    detail: 'Chronic Back Pain · Watertown, MA',
+  },
+  {
+    quote:
+      'Dr. Medhati helped me through our IVF journey with acupuncture and herbal support. His holistic approach made all the difference — we now have a healthy baby boy!',
+    initials: 'LP',
+    name: 'Lisa P.',
+    detail: 'Infertility Support · Boston, MA',
+  },
+  {
+    quote:
+      'I was skeptical at first, but the millimeter wave therapy combined with acupuncture completely resolved my migraines. The booking process was also very easy and convenient.',
+    initials: 'MK',
+    name: 'Michael K.',
+    detail: 'Migraines · Newton, MA',
+  },
+] as const;
+
+const FAQS = [
+  {
+    question: 'Does acupuncture hurt?',
+    answer:
+      'Most patients experience minimal to no discomfort. Acupuncture needles are ultra-thin — about the width of a human hair. You may feel warmth, tingling, or heaviness, and many patients relax deeply or fall asleep during treatment.',
+  },
+  {
+    question: 'How should I prepare for my appointment?',
+    answer:
+      'Eat a light meal 1–2 hours before your visit, wear loose comfortable clothing, avoid caffeine and alcohol, bring a list of medications or supplements, and arrive about 10 minutes early for your first visit.',
+  },
+  {
+    question: 'How many sessions will I need?',
+    answer:
+      'It varies by condition and severity. Acute conditions may resolve in 4–6 sessions, while chronic conditions may require 8–12 or more. Dr. Medhati creates a personalized treatment plan and reassesses progress regularly.',
+  },
+  {
+    question: 'What should I know before a Hijama/Cupping session?',
+    answer:
+      'Fast for 2–3 hours beforehand, avoid heavy exercise for 24 hours, and wear loose clothing. After treatment, avoid cold water and heavy meals for a few hours. Circular marks are normal and usually fade within a few days.',
+  },
+  {
+    question: 'What is Neuro Acupuncture or Scalp Acupuncture?',
+    answer:
+      'Neuro-acupuncture is a specialized technique that integrates traditional Chinese needling with modern knowledge of neurology, neuroscience, and neuroplasticity. Specific scalp areas are stimulated to support central nervous system conditions.',
+  },
+  {
+    question: 'What is Chinese Acupuncture?',
+    answer:
+      'Chinese acupuncture is a key part of Traditional Chinese Medicine. Thin sterile needles are inserted at specific points to influence the flow of qi along meridians and stimulate the nervous system.',
+  },
+  {
+    question: 'Do you accept insurance?',
+    answer:
+      'We accept several major insurance plans. Please call the clinic to verify your specific coverage. Self-pay options are also available.',
+  },
+  {
+    question: 'Can acupuncture help with infertility?',
+    answer:
+      'Acupuncture may support reproductive health by improving circulation, helping regulate hormonal balance, reducing stress, and complementing IVF protocols. Dr. Medhati has experience with fertility-focused acupuncture.',
+  },
+  {
+    question: 'What is Japanese Acupuncture and how is it different?',
+    answer:
+      'Japanese Acupuncture Style uses finer needles, lighter stimulation, and detailed palpation-based diagnosis. It is often preferred by patients who are sensitive or anxious about needles.',
+  },
+] as const;
+
+const INSURANCE = [
+  'Blue Cross Blue Shield',
+  'Car Accident Insurance',
+  'Whole Health Plan',
+  'Aetna',
+  'United Healthcare',
+  'Harvard Pilgrim',
+  'Mass General Brigham',
+  'Tufts Health Plan',
+  'Mass Health',
+  'Self-Pay Available',
+] as const;
+
+const BOOKING_STEPS = [
+  ['1', 'Choose Your Service', 'Tap any service to instantly proceed'],
+  ['2', 'Pick a Date & Time', 'View real-time availability'],
+  ['3', 'Enter Your Details', 'Quick form — just the essentials'],
+  ['4', 'Confirm & Get Email', 'Instant confirmation sent to you and Dr. Medhati'],
+] as const;
+
 export function Home() {
-  const triggerAiWithPrompt = (prompt: string) => {
-    window.dispatchEvent(new CustomEvent('open-ai-chat', { detail: { prompt } }));
-  };
-
-  const openAiChat = () => {
-    window.dispatchEvent(new CustomEvent('open-ai-chat'));
-  };
-
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-teal-50/50">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-teal-600/5 clip-path-hero hidden lg:block" />
+    <div className="flex flex-col bg-white">
+      {/* HERO */}
+      <section
+        id="hero"
+        className="relative min-h-[calc(100vh-5rem)] flex items-center overflow-hidden bg-gradient-to-br from-teal-50 via-emerald-50 to-white"
+      >
+        <div className="absolute inset-0 pointer-events-none">
           <img
             src={IMAGES.hero}
-            alt="Wellness Background"
-            className="absolute top-0 right-0 w-1/2 h-full object-cover opacity-20 hidden lg:block clip-path-hero"
-            referrerPolicy="no-referrer"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover opacity-[0.08]"
           />
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-teal-300/10 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-teal-50/70" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="space-y-8"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="bg-white/85 backdrop-blur-xl border border-white rounded-[2rem] shadow-xl shadow-teal-900/5 p-7 sm:p-10 lg:p-12"
             >
-              <div className="inline-flex items-center gap-2 bg-white border border-teal-100 px-4 py-2 rounded-full shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-teal-500 animate-ping" />
-                <span className="text-xs font-bold text-teal-800 uppercase tracking-widest">Accepting New Patients</span>
+              <div className="inline-flex items-center gap-2 bg-white border border-teal-200 px-4 py-2 rounded-full text-sm font-semibold text-teal-800 mb-7">
+                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
+                Accepting New Patients · Watertown, MA
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tight">
-                Heal Naturally. <br />
-                <span className="text-teal-600 italic font-serif">Live Fully.</span>
+
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight text-gray-900 leading-[1.04]">
+                Heal Naturally.
+                <span className="block text-teal-600 font-serif italic">Live Fully.</span>
               </h1>
-              <p className="text-lg text-gray-600 max-w-lg leading-relaxed">
-                Experience the power of integrative medicine with Dr. Mostafa Medhati — combining ancient wisdom with modern science to restore your health and vitality in Watertown, MA.
+
+              <p className="mt-6 text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl">
+                Experience the power of integrative medicine with Dr. Mostafa Medhati — combining ancient wisdom with modern science to restore your health and vitality.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/book"
-                  className="inline-flex items-center justify-center gap-2 bg-teal-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-teal-700 transition-all shadow-xl shadow-teal-600/20 active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-7 py-4 rounded-full font-bold shadow-lg shadow-teal-600/20 transition-all active:scale-95"
                 >
                   <Calendar className="w-5 h-5" />
                   Book Appointment
                 </Link>
                 <a
-                  href="#about"
-                  className="inline-flex items-center justify-center gap-2 bg-white text-teal-800 border-2 border-teal-200 hover:border-teal-600 px-7 py-4 rounded-full text-base font-bold shadow-sm hover:shadow-md transition-all active:scale-95"
+                  href="#services"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-teal-600 text-teal-700 hover:bg-teal-50 px-7 py-4 rounded-full font-bold transition-all"
                 >
-                  <span>Meet Dr. Medhati</span>
-                  <ArrowRight className="w-4 h-4 text-teal-600" />
+                  Explore Services
+                  <ArrowRight className="w-5 h-5" />
                 </a>
               </div>
-              <div className="flex items-center gap-8 pt-4 border-t border-gray-100">
-                <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-gray-900">20+</span>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Years Exp.</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-gray-900">5k+</span>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Patients Helped</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-gray-900">5.0</span>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Google Rating</span>
+
+              <div className="mt-9 pt-7 border-t border-teal-100 grid grid-cols-3 gap-4">
+                {[
+                  ['20+', 'Years Experience'],
+                  ['5,000+', 'Patients Helped'],
+                  ['8', 'Therapies Offered'],
+                ].map(([value, label]) => (
+                  <div key={label}>
+                    <p className="text-2xl sm:text-3xl font-bold text-teal-600">{value}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">{label}</p>
                   </div>
-                </div>
+                ))}
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
               className="relative"
             >
-              {/* Doctor Showcase Card with Original High-Resolution Photo */}
-              <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 sm:border-8 border-white bg-slate-900 aspect-[4/3] sm:aspect-[16/12] group">
-                <img
-                  src={IMAGES.drMedhati}
-                  alt="Dr. Mostafa Medhati, L.Ac - AcuMeD Clinic"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
-                
-                {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
-                
-                {/* Doctor Bio Overlay Box */}
-                <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <div className="inline-flex items-center gap-1.5 bg-teal-600/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-teal-100 mb-2 border border-teal-400/30">
-                    <Award className="w-3.5 h-3.5 text-teal-200" />
-                    <span>Lead Acupuncturist & Herbalist</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                    Dr. Mostafa Medhati, L.Ac
-                  </h3>
-                  <p className="text-xs sm:text-sm text-teal-100/90 mt-0.5 font-medium">
-                    MD (Iran) · Lic.Ac · MAOM · Dipl. Ac (NCCAOM)
-                  </p>
+              <div className="bg-white rounded-[2rem] shadow-2xl shadow-teal-900/10 overflow-hidden border border-teal-100">
+                <div className="aspect-[4/4.2] sm:aspect-[4/3.7] overflow-hidden">
+                  <img
+                    src={IMAGES.drMedhati}
+                    alt="Dr. Mostafa Medhati"
+                    className="w-full h-full object-cover object-top"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
-
-                {/* Floating Experience Badge */}
-                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-teal-100/80 flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold text-sm">
-                    20+
+                <div className="p-7 text-center">
+                  <h2 className="text-2xl font-bold text-gray-900">Dr. Mostafa Medhati</h2>
+                  <p className="text-teal-600 font-semibold mt-1">PhD, MD, Lic.Ac, MAOM</p>
+                  <div className="flex flex-wrap justify-center gap-2 mt-5">
+                    {['Acupuncture', 'Herbal Medicine', 'Holistic MD'].map((item) => (
+                      <span key={item} className="bg-teal-50 text-teal-800 px-3 py-1.5 rounded-full text-xs font-bold">
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                  <div className="text-left">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase leading-none">Clinical</p>
-                    <p className="text-xs font-extrabold text-teal-900 leading-tight">Expertise</p>
-                  </div>
+                  <p className="text-sm text-gray-500 mt-5">
+                    124 Watertown St, Suite #3A<br />
+                    Watertown, MA 02472
+                  </p>
                 </div>
               </div>
 
-              {/* Clean Trust Strip Below Doctor Photo */}
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="bg-white/80 backdrop-blur-sm p-3.5 rounded-2xl border border-teal-100/60 shadow-sm flex items-center gap-3">
-                  <div className="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center shrink-0">
-                    <ShieldCheck className="w-5 h-5 text-teal-600" />
+              {/* Trust cards are placed below the doctor card instead of absolutely
+                  positioning them over the photo/content. This keeps them responsive
+                  and prevents overlap at desktop and intermediate screen widths. */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="bg-white border border-teal-100 shadow-lg rounded-2xl px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+                    <Star className="w-5 h-5 fill-current" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-900">100% Sterile & Gentle</p>
-                    <p className="text-[11px] text-gray-500">Painless Ultra-Fine Needles</p>
-                  </div>
+                  <span className="text-sm font-bold text-gray-800 leading-snug">
+                    Top Rated in Watertown Area
+                  </span>
                 </div>
 
-                <div className="bg-white/80 backdrop-blur-sm p-3.5 rounded-2xl border border-teal-100/60 shadow-sm flex items-center gap-3">
-                  <div className="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center shrink-0">
-                    <CheckCircle className="w-5 h-5 text-teal-600" />
+                <div className="bg-white border border-teal-100 shadow-lg rounded-2xl px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                    <HeartPulse className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-gray-900">Private Suites</p>
-                    <p className="text-[11px] text-gray-500">Tranquil Healing Space</p>
+                    <p className="text-sm font-bold text-gray-800">Holistic & Natural</p>
+                    <p className="text-xs text-gray-500">Mind · Body · Spirit</p>
                   </div>
                 </div>
               </div>
@@ -257,329 +364,464 @@ export function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-32 bg-white">
+      {/* BOOKING */}
+      <section id="book" className="py-24 bg-teal-600 relative overflow-hidden">
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/5" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="text-white">
+              <span className="inline-flex px-4 py-2 rounded-full bg-white/10 text-teal-50 text-xs font-bold uppercase tracking-[0.18em]">
+                Easy Scheduling
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-5">Book Your Healing Journey in Minutes</h2>
+              <p className="text-teal-50/90 text-lg mt-5 leading-relaxed">
+                Select your treatment, choose a time that works for you, and confirm — all in one seamless experience.
+              </p>
+
+              <div className="mt-9 space-y-5">
+                {BOOKING_STEPS.map(([num, title, desc]) => (
+                  <div key={num} className="flex gap-4">
+                    <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center font-bold shrink-0">
+                      {num}
+                    </div>
+                    <div>
+                      <p className="font-bold text-white">{title}</p>
+                      <p className="text-sm text-teal-50/75">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-4 text-sm font-semibold">
+                <a href={`tel:${CLINIC_INFO.phone}`} className="inline-flex items-center gap-2 text-white">
+                  <Phone className="w-4 h-4" />
+                  {CLINIC_INFO.phone}
+                </a>
+                <span className="text-white/50">•</span>
+                <span className="text-white">(857) 928-7678</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-[2rem] shadow-2xl p-7 sm:p-9">
+              <div className="mb-7">
+                <h3 className="text-2xl font-bold text-gray-900">Schedule Your Visit</h3>
+                <p className="text-gray-500 mt-1">Choose a service to continue to the appointment calendar.</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  ['Initial Acupuncture', '60 min'],
+                  ['Follow-up Acupuncture', '30 min'],
+                  ['Herbal Medicine', '45 min'],
+                  ['Cupping / Hijama', '45 min'],
+                ].map(([service, duration]) => (
+                  <Link
+                    key={service}
+                    to="/book"
+                    className="text-left border-2 border-gray-100 hover:border-teal-300 hover:bg-teal-50 rounded-2xl p-4 transition-all group"
+                  >
+                    <p className="font-bold text-gray-900 group-hover:text-teal-700">{service}</p>
+                    <p className="text-sm text-gray-400 mt-1">{duration}</p>
+                  </Link>
+                ))}
+              </div>
+
+              <Link
+                to="/book"
+                className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white py-4 rounded-xl font-bold transition-all"
+              >
+                Continue to Booking
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section id="services" className="py-24 lg:py-28 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-sm font-bold text-teal-600 uppercase tracking-[0.2em] mb-4">What We Offer</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Holistic Healing Services</h3>
-            <p className="text-lg text-gray-600">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-flex bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+              What We Offer
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Holistic Healing Services</h2>
+            <p className="text-lg text-gray-600 mt-5">
               Each treatment is personalized to your unique health needs, combining centuries-old wisdom with evidence-informed modern practice.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
             {SERVICES.map((service, index) => (
-              <motion.div
+              <motion.article
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100"
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ delay: Math.min(index * 0.05, 0.3) }}
+                className="group rounded-3xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-all"
               >
-                <div className="aspect-video relative overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden relative">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-4 left-4 right-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-between">
-                    <div className="w-12 h-12 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/60">
-                      <ServiceIcon serviceId={service.iconId} className="w-10 h-10 rounded-xl" iconClassName="w-5 h-5" />
-                    </div>
-                    <span className="text-[11px] font-bold bg-white/90 backdrop-blur-md text-teal-900 px-3 py-1.5 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                      Holistic Care
-                    </span>
+                  <div className="absolute bottom-4 left-4 w-11 h-11 rounded-xl bg-white/95 shadow-lg flex items-center justify-center">
+                    <ServiceIcon serviceId={service.iconId} className="w-9 h-9 rounded-lg" iconClassName="w-4 h-4" />
                   </div>
                 </div>
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-3">
-                    <ServiceIcon serviceId={service.iconId} className="w-7 h-7 rounded-lg shrink-0" iconClassName="w-3.5 h-3.5" />
-                    <h4 className="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{service.title}</h4>
-                  </div>
-                  <p className="text-gray-600 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <div className="mt-8 flex items-center gap-2 text-teal-600 font-bold">
-                    <span>Learn More</span>
+                <div className="p-7">
+                  <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
+                  <p className="text-gray-600 leading-relaxed mt-3">{service.description}</p>
+                  <Link to="/book" className="inline-flex items-center gap-2 text-teal-600 font-bold mt-6">
+                    Learn More
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  </Link>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* AI Voice & Chat Patient Assistant Spotlight */}
-      <section className="py-20 bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2.5 bg-teal-800/70 border border-teal-500/30 pl-2 pr-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-teal-200">
-                <div className="w-5 h-5 rounded-full overflow-hidden border border-teal-300 shrink-0">
-                  <img
-                    src={IMAGES.aiAvatar}
-                    alt="Care Guide"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <span>24/7 Holistic Care Guide & Voice Assistant</span>
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
-                Have questions before your visit? <br />
-                <span className="text-teal-400">Ask or speak with our friendly Care Guide.</span>
-              </h3>
-              <p className="text-teal-100/90 text-base leading-relaxed max-w-xl">
-                Get instant, personalized answers about Dr. Medhati's acupuncture techniques, custom herbal therapies, pain management for sciatica, fertility IVF support, session pricing, and what to expect on your first visit.
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button
-                  onClick={openAiChat}
-                  className="inline-flex items-center gap-2.5 bg-teal-500 hover:bg-teal-400 text-teal-950 font-bold px-7 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-teal-500/20 active:scale-95 cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Start Chat Consultation</span>
-                </button>
-
-                <button
-                  onClick={openAiChat}
-                  className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3.5 rounded-full text-sm transition-all active:scale-95 cursor-pointer"
-                >
-                  <Mic className="w-4 h-4 text-teal-300 animate-pulse" />
-                  <span>Speak by Voice</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Quick Interactive Questions Showcase with Avatar Card */}
-            <div className="lg:col-span-5 bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-teal-300/80 shadow-sm shrink-0">
-                    <img
-                      src={IMAGES.aiAvatar}
-                      alt="Care Guide"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">AcuMeD Care Guide</h4>
-                    <p className="text-[11px] text-teal-300">Tap any question to ask</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold bg-emerald-950/50 border border-emerald-500/30 px-2.5 py-1 rounded-full">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span>Online</span>
-                </div>
-              </div>
-
-              <div className="space-y-2.5">
-                {[
-                  { q: 'Does acupuncture hurt?', tag: 'FAQ' },
-                  { q: 'How does Dr. Medhati treat sciatica and back pain?', tag: 'Pain' },
-                  { q: 'Can acupuncture support my IVF fertility cycle?', tag: 'Fertility' },
-                  { q: 'What is the cost and insurance process?', tag: 'Pricing' },
-                  { q: 'How do I prepare for my first acupuncture appointment?', tag: 'Prep' },
-                ].map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => triggerAiWithPrompt(item.q)}
-                    className="w-full text-left bg-white/5 hover:bg-white/15 border border-white/10 hover:border-teal-400/50 p-3 rounded-2xl transition-all flex items-center justify-between group cursor-pointer"
-                  >
-                    <span className="text-xs sm:text-sm text-gray-200 group-hover:text-white font-medium pr-2">
-                      "{item.q}"
-                    </span>
-                    <span className="text-[10px] uppercase font-bold bg-teal-700/60 text-teal-200 px-2 py-0.5 rounded-md shrink-0">
-                      {item.tag}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-32 bg-teal-50/30">
+      {/* ABOUT */}
+      <section id="about" className="py-24 lg:py-28 bg-teal-50/60 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="relative">
-              <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl">
+              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white aspect-[4/5]">
                 <img
                   src={IMAGES.drMedhati}
-                  alt="Dr. Medhati at work"
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  alt="Dr. Mostafa Medhati"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
-              <div className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-2xl border border-teal-50 hidden md:block">
-                <p className="text-4xl font-bold text-teal-600 mb-1">20+</p>
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Years of Clinical Practice</p>
+              <div className="absolute -bottom-7 right-4 sm:-right-7 bg-white rounded-2xl shadow-xl px-7 py-5 border border-teal-100">
+                <p className="text-3xl font-bold text-teal-600">20+</p>
+                <p className="text-xs uppercase tracking-wider text-gray-500 font-bold">Years of Clinical Practice</p>
               </div>
             </div>
 
-            <div className="space-y-8">
-              <h2 className="text-sm font-bold text-teal-600 uppercase tracking-[0.2em]">Your Practitioner</h2>
-              <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                Dr. Mostafa Medhati
-                <span className="block text-xl font-medium text-teal-600 mt-2">PhD, MD, Lic.Ac, MAOM</span>
-              </h3>
-              <div className="bg-teal-600/5 border-l-4 border-teal-600 p-6 rounded-r-2xl italic text-lg text-teal-900 font-serif">
-                "My mission is to help every patient unlock their body's innate power to heal — through a personalized journey that honors the whole person."
-              </div>
-              <p className="text-gray-600 leading-relaxed text-lg">
-                Dr. Medhati brings a rare integration of Western medical training with deep expertise in Traditional Chinese Medicine, Persian healing traditions inspired by Avicenna, and Japanese acupuncture systems.
+            <div>
+              <span className="inline-flex bg-white text-teal-700 border border-teal-100 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+                Your Practitioner
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Dr. Mostafa Medhati</h2>
+
+              <blockquote className="mt-6 bg-white/80 border-l-4 border-teal-600 rounded-r-2xl p-6 text-lg text-teal-900 font-serif italic">
+                “My mission is to help every patient unlock their body's innate power to heal — through a personalized journey that honors the whole person.”
+              </blockquote>
+
+              <p className="mt-6 text-gray-600 text-lg leading-relaxed">
+                Dr. Medhati holds a PhD and MD alongside his Master of Acupuncture and Oriental Medicine (MAOM) and Licensed Acupuncturist (Lic.Ac) credentials. He brings a rare integration of Western medical training with Traditional Chinese Medicine, Persian healing traditions inspired by Avicenna, and Japanese acupuncture systems.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                His approach treats every patient as a whole — addressing root causes rather than just symptoms — through a combination of acupuncture, herbal medicine, and counseling in every session.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-7">
                 {[
                   'PhD — Biomedical Sciences',
                   'MD — Medical Doctor',
                   'Lic.Ac — Licensed Acupuncturist',
                   'MAOM — Oriental Medicine',
                   'TCM Practitioner',
-                  'Japanese Acupuncture (JAS)'
+                  'Japanese Acupuncture (JAS)',
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-teal-500" />
+                    <CheckCircle className="w-5 h-5 text-teal-500 shrink-0" />
                     <span className="text-sm font-semibold text-gray-700">{item}</span>
                   </div>
                 ))}
               </div>
-              <div className="pt-6">
-                <Link
-                  to="/book"
-                  className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition-all active:scale-95"
-                >
-                  Book a Consultation
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
+
+              <Link
+                to="/book"
+                className="mt-8 inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-7 py-4 rounded-full font-bold"
+              >
+                Book a Consultation
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Patient Reviews & Testimonials Section */}
-      <Testimonials />
-
-      {/* Contact & Location Section */}
-      <section id="contact" className="py-32 bg-white">
+      {/* CONDITIONS */}
+      <section id="conditions" className="py-24 lg:py-28 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-            <div className="space-y-12">
-              <div>
-                <h2 className="text-sm font-bold text-teal-600 uppercase tracking-[0.2em] mb-4">Find Us</h2>
-                <h3 className="text-4xl font-bold text-gray-900 mb-6">Location & Office Hours</h3>
-                <p className="text-gray-600 text-lg">
-                  Conveniently located in Watertown, MA, our clinic provides a peaceful sanctuary for your healing journey.
-                </p>
-              </div>
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="inline-flex bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+              We Can Help With
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Conditions We Treat</h2>
+            <p className="text-lg text-gray-600 mt-5">
+              Acupuncture and holistic medicine can be used to support care for a wide range of health conditions.
+            </p>
+          </div>
 
-              <div className="space-y-8">
-                <div className="flex gap-6">
-                  <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 shrink-0">
-                    <MapPin className="w-7 h-7" />
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {CONDITIONS.map((condition) => (
+              <div
+                key={condition}
+                className="flex items-center gap-3 bg-gray-50 hover:bg-teal-50 border border-gray-100 hover:border-teal-100 rounded-xl px-4 py-3 transition-colors"
+              >
+                <CheckCircle className="w-4 h-4 text-teal-500 shrink-0" />
+                <span className="text-sm font-semibold text-gray-700">{condition}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              to="/book"
+              className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-7 py-4 rounded-full font-bold"
+            >
+              Book a Consultation — We Can Help
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="testimonials" className="py-24 lg:py-28 bg-slate-950 text-white scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="inline-flex bg-white/10 text-teal-300 border border-white/10 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+              Patient Stories
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mt-5">Real Healing, Real Results</h2>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((item) => (
+              <article key={item.name} className="bg-white/5 border border-white/10 rounded-3xl p-7 sm:p-8">
+                <div className="flex gap-1 text-amber-400">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <Star key={idx} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <p className="mt-6 text-gray-200 leading-relaxed">“{item.quote}”</p>
+                <div className="mt-7 flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-teal-600 flex items-center justify-center font-bold">
+                    {item.initials}
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-900 mb-2">Address</h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      {CLINIC_INFO.address}
+                    <p className="font-bold text-white">{item.name}</p>
+                    <p className="text-xs text-gray-400 mt-1">{item.detail}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 lg:py-28 bg-white scroll-mt-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <span className="inline-flex bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+              Common Questions
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Frequently Asked Questions</h2>
+          </div>
+
+          <div className="mt-12 space-y-3">
+            {FAQS.map((item) => (
+              <details
+                key={item.question}
+                className="group border border-gray-200 rounded-2xl bg-white overflow-hidden shadow-sm"
+              >
+                <summary className="list-none cursor-pointer flex items-center justify-between gap-4 px-5 sm:px-6 py-5 font-bold text-gray-900">
+                  <span>{item.question}</span>
+                  <span className="w-8 h-8 rounded-full bg-teal-50 text-teal-700 flex items-center justify-center text-xl group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <div className="px-5 sm:px-6 pb-6 text-gray-600 leading-relaxed">
+                  {item.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* INSURANCE */}
+      <section id="insurance" className="py-24 lg:py-28 bg-teal-50/60 scroll-mt-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="inline-flex bg-white text-teal-700 border border-teal-100 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+              Coverage & Payments
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Insurance & Payment Options</h2>
+            <p className="text-lg text-gray-600 mt-5">
+              We work with many insurance providers and offer flexible payment options to help make care accessible.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {INSURANCE.map((provider) => (
+              <div
+                key={provider}
+                className="bg-white border border-teal-100 rounded-2xl px-4 py-5 text-center shadow-sm"
+              >
+                <ShieldCheck className="w-6 h-6 text-teal-600 mx-auto" />
+                <p className="text-sm font-bold text-gray-800 mt-3">{provider}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-9 bg-white border border-teal-100 rounded-2xl p-6 text-center">
+            <p className="font-bold text-gray-900">Not sure about your coverage?</p>
+            <p className="text-gray-600 mt-2">
+              Call us to verify: <a className="text-teal-700 font-bold" href={`tel:${CLINIC_INFO.phone}`}>{CLINIC_INFO.phone}</a>
+              {' '}or email:{' '}
+              <a className="text-teal-700 font-bold" href="mailto:mostafmed@acumedm.com">mostafmed@acumedm.com</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* LOCATION */}
+      <section id="location" className="py-24 lg:py-28 bg-white scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            <div>
+              <span className="inline-flex bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.18em]">
+                Find Us
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-5">Location & Office Hours</h2>
+
+              <div className="mt-10 space-y-7">
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Address</h3>
+                    <p className="text-gray-600 mt-1">
+                      124 Watertown St, Suite #3A<br />
+                      Watertown, MA 02472
                     </p>
-                    <a href="https://maps.google.com/?q=124+Watertown+St+Watertown+MA" target="_blank" rel="noopener" className="text-teal-600 font-bold text-sm mt-2 inline-block hover:underline">
-                      Get Directions →
+                    <a
+                      href="https://maps.google.com/?q=124+Watertown+St+Watertown+MA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-teal-600 font-bold text-sm mt-2"
+                    >
+                      Get Directions
+                      <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
 
-                <div className="flex gap-6">
-                  <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 shrink-0">
-                    <Clock className="w-7 h-7" />
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                    <Clock className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-900 mb-2">Office Hours</h4>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm text-gray-600">
-                      {Object.entries(CLINIC_INFO.hours).map(([day, hours]) => (
-                        <div key={day} className="contents">
-                          <span className="font-bold text-gray-900">{day}</span>
-                          <span>{hours}</span>
-                        </div>
-                      ))}
+                    <h3 className="font-bold text-gray-900">Office Hours</h3>
+                    <div className="text-gray-600 mt-2 space-y-1">
+                      <p><strong className="text-gray-800">Monday – Friday:</strong> 9:00 AM – 6:00 PM</p>
+                      <p><strong className="text-gray-800">Saturday:</strong> 9:00 AM – 2:00 PM</p>
+                      <p><strong className="text-gray-800">Sunday:</strong> Closed</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-6">
-                  <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 shrink-0">
-                    <Phone className="w-7 h-7" />
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                    <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-900 mb-2">Contact</h4>
-                    <p className="text-gray-600">{CLINIC_INFO.phone}</p>
-                    <p className="text-gray-600">{CLINIC_INFO.email}</p>
+                    <h3 className="font-bold text-gray-900">Contact</h3>
+                    <div className="text-gray-600 mt-2 space-y-1">
+                      <p><a href={`tel:${CLINIC_INFO.phone}`} className="hover:text-teal-600">{CLINIC_INFO.phone}</a></p>
+                      <p><a href="tel:+18579287678" className="hover:text-teal-600">(857) 928-7678</a></p>
+                      <p><a href="mailto:mostafmed@acumedm.com" className="hover:text-teal-600">mostafmed@acumedm.com</a></p>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              <Link
+                to="/book"
+                className="mt-9 inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-7 py-4 rounded-full font-bold"
+              >
+                <Calendar className="w-5 h-5" />
+                Book Your Appointment
+              </Link>
             </div>
 
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white h-[600px]">
+            <div className="rounded-[2rem] overflow-hidden shadow-2xl border-8 border-white min-h-[520px]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2949.1!2d-71.183!3d42.364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e377!2s124+Watertown+St+Watertown+MA!5e0!3m2!1sen!2sus!4v1"
                 width="100%"
                 height="100%"
-                style={{ border: 0 }}
+                style={{ border: 0, minHeight: '520px' }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="AcuMeD Clinic location map"
+                title="AcuMeD Clinic location"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={IMAGES.clinic}
-            alt="Clinic Interior"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-teal-900/90 backdrop-blur-sm" />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">Ready to start your healing journey?</h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/book"
-              className="bg-white text-teal-600 px-10 py-5 rounded-full text-xl font-bold hover:bg-teal-50 transition-all active:scale-95 shadow-2xl"
-            >
-              Book Your Appointment
-            </Link>
-            <a
-              href={`tel:${CLINIC_INFO.phone}`}
-              className="bg-teal-700 text-white border-2 border-teal-500 px-10 py-5 rounded-full text-xl font-bold hover:bg-teal-800 transition-all active:scale-95"
-            >
-              Call Us: {CLINIC_INFO.phone}
-            </a>
+      {/* FOOTER */}
+      <footer className="bg-slate-950 text-white py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div>
+              <h3 className="text-xl font-bold">AcuMeD Clinic</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mt-4">
+                Holistic healing for mind, body, and spirit. Serving the greater Boston & Watertown area with evidence-informed integrative medicine since 2004.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold">Services</h3>
+              <div className="mt-4 space-y-2 text-sm text-gray-400">
+                {['Acupuncture', 'Herbal Medicine', 'Cupping / Hijama', 'Japanese Acupuncture', 'Neuro Acupuncture'].map((item) => (
+                  <a key={item} href="#services" className="block hover:text-teal-300">{item}</a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-bold">Quick Links</h3>
+              <div className="mt-4 space-y-2 text-sm text-gray-400">
+                <a href="#about" className="block hover:text-teal-300">About Dr. Medhati</a>
+                <a href="#conditions" className="block hover:text-teal-300">Conditions Treated</a>
+                <a href="#faq" className="block hover:text-teal-300">FAQ & Preparation</a>
+                <a href="#insurance" className="block hover:text-teal-300">Insurance & Payments</a>
+                <a href="#location" className="block hover:text-teal-300">Location & Hours</a>
+                <Link to="/book" className="block hover:text-teal-300">Book Appointment</Link>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-bold">Contact</h3>
+              <div className="mt-4 space-y-3 text-sm text-gray-400">
+                <p className="flex gap-2"><MapPin className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />124 Watertown St, Suite #3A, Watertown, MA 02472</p>
+                <p className="flex gap-2"><Phone className="w-4 h-4 text-teal-400 shrink-0" />{CLINIC_INFO.phone}</p>
+                <p className="flex gap-2"><Mail className="w-4 h-4 text-teal-400 shrink-0" />mostafmed@acumedm.com</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row gap-3 justify-between text-xs text-gray-500">
+            <p>© 2025 AcuMed Clinic. All rights reserved.</p>
+            <p>Not a substitute for emergency medical care.</p>
           </div>
         </div>
-      </section>
+      </footer>
     </div>
   );
 }
