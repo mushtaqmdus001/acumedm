@@ -773,55 +773,6 @@ export function Home() {
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="bg-slate-950 text-white py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            <div>
-              <h3 className="text-xl font-bold">AcuMeD Clinic</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mt-4">
-                Holistic healing for mind, body, and spirit. Serving the greater Boston & Watertown area with evidence-informed integrative medicine since 2004.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-bold">Services</h3>
-              <div className="mt-4 space-y-2 text-sm text-gray-400">
-                {['Acupuncture', 'Herbal Medicine', 'Cupping / Hijama', 'Japanese Acupuncture', 'Neuro Acupuncture'].map((item) => (
-                  <a key={item} href="#services" className="block hover:text-teal-300">{item}</a>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-bold">Quick Links</h3>
-              <div className="mt-4 space-y-2 text-sm text-gray-400">
-                <a href="#about" className="block hover:text-teal-300">About Dr. Medhati</a>
-                <a href="#conditions" className="block hover:text-teal-300">Conditions Treated</a>
-                <a href="#faq" className="block hover:text-teal-300">FAQ & Preparation</a>
-                <a href="#insurance" className="block hover:text-teal-300">Insurance & Payments</a>
-                <a href="#location" className="block hover:text-teal-300">Location & Hours</a>
-                <Link to="/book" className="block hover:text-teal-300">Book Appointment</Link>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-bold">Contact</h3>
-              <div className="mt-4 space-y-3 text-sm text-gray-400">
-                <p className="flex gap-2"><MapPin className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />124 Watertown St, Suite #3A, Watertown, MA 02472</p>
-                <p className="flex gap-2"><Phone className="w-4 h-4 text-teal-400 shrink-0" />{CLINIC_INFO.phone}</p>
-                <p className="flex gap-2"><Mail className="w-4 h-4 text-teal-400 shrink-0" />mostafmed@acumedm.com</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row gap-3 justify-between text-xs text-gray-500">
-            <p>© 2025 AcuMed Clinic. All rights reserved.</p>
-            <p>Not a substitute for emergency medical care.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

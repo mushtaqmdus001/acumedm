@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { Booking } from './pages/Booking';
-import { Admin } from './pages/Admin';
+import { Admin } from './pages/Admin_old';
 import { Toaster } from 'react-hot-toast';
 import { ScrollToHash } from './components/ScrollToHash';
 import { AiChatBot } from './components/AiChatBot';

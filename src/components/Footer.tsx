@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from 'lucide-react';
 import { CLINIC_INFO, SERVICES } from '../constants';
+import acumedLogo from '../assets/images/acumed-logo.png';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,14 +12,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                Ac
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-white leading-tight">AcuMeD Clinic</span>
-                <span className="text-[10px] uppercase tracking-widest text-teal-400 font-semibold">Acupuncture & Herbs</span>
-              </div>
+            <Link to="/" className="inline-flex items-center" aria-label="AcuMeD Clinic Home">
+              {/* Official AcuMeD logo shared with the site navigation. */}
+              <img
+                src={acumedLogo}
+                alt="AcuMeD Clinic"
+                className="h-14 sm:h-16 w-auto object-contain"
+              />
             </Link>
             <p className="text-sm leading-relaxed text-gray-400">
               Holistic healing for mind, body, and spirit. Serving the greater Boston & Watertown area with evidence-informed integrative medicine since 2004.
@@ -57,7 +57,7 @@ export function Footer() {
               <li><Link to="/" className="hover:text-teal-400 transition-colors">Home</Link></li>
               <li><Link to="/#about" className="hover:text-teal-400 transition-colors">About Dr. Medhati</Link></li>
               <li><Link to="/#testimonials" className="hover:text-teal-400 transition-colors">Patient Reviews</Link></li>
-              <li><Link to="/#contact" className="hover:text-teal-400 transition-colors">Contact & Location</Link></li>
+              <li><Link to="/#location" className="hover:text-teal-400 transition-colors">Contact & Location</Link></li>
               <li><Link to="/book" className="hover:text-teal-400 transition-colors">Book Appointment</Link></li>
               <li><Link to="/admin" className="hover:text-teal-400 transition-colors">Admin Portal</Link></li>
             </ul>

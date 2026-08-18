@@ -3,13 +3,44 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
-import { SERVICES, CLINIC_INFO } from '../constants';
+import { CLINIC_INFO } from '../constants';
 import { sendPatientBookingEmail, sendAdminBookingEmail } from '../lib/emailjs';
 import { toast } from 'react-hot-toast';
 import { Calendar, Clock, User, Phone, Mail, MessageSquare, CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { format, addDays, startOfToday, isAfter, isBefore, setHours, setMinutes } from 'date-fns';
 import { cn } from '../lib/utils';
 import { ServiceIcon } from '../components/ServiceIcon';
+
+
+// Keep the booking catalog synchronized with the services displayed on Home.tsx.
+// The title is what is stored in Firestore and sent in booking emails.
+// iconId maps each service to the existing ServiceIcon component.
+const BOOKING_SERVICES = [
+  {
+    id: 'initial-acupuncture',
+    iconId: 'acupuncture',
+    title: 'Initial Acupuncture',
+    duration: '60 min session',
+  },
+  {
+    id: 'follow-up-acupuncture',
+    iconId: 'acupuncture',
+    title: 'Follow-up Acupuncture',
+    duration: '30 min session',
+  },
+  {
+    id: 'herbal-medicine',
+    iconId: 'herbs',
+    title: 'Herbal Medicine',
+    duration: '45 min session',
+  },
+  {
+    id: 'hijama-cupping',
+    iconId: 'cupping',
+    title: 'Cupping / Hijama',
+    duration: '45 min session',
+  },
+] as const;
 
 export function Booking() {
   const [step, setStep] = useState(1);
@@ -159,8 +190,15 @@ export function Booking() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-8"
               >
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Choose Your Service</h2>
+                  <p className="text-gray-500 mt-2">
+                    Select one of the four appointment services below to continue.
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {SERVICES.map((service) => (
+                  {BOOKING_SERVICES.map((service) => (
                     <button
                       key={service.id}
                       type="button"
@@ -170,10 +208,10 @@ export function Booking() {
                         formData.service === service.title ? "border-teal-600 bg-teal-50" : "border-gray-100 hover:border-teal-200 hover:bg-gray-50"
                       )}
                     >
-                      <ServiceIcon serviceId={service.id} className="w-12 h-12 rounded-xl shadow-sm group-hover:scale-110 shrink-0" iconClassName="w-6 h-6" />
+                      <ServiceIcon serviceId={service.iconId} className="w-12 h-12 rounded-xl shadow-sm group-hover:scale-110 shrink-0" iconClassName="w-6 h-6" />
                       <div>
                         <p className="font-bold text-gray-900">{service.title}</p>
-                        <p className="text-xs text-gray-500 mt-1">60 min session</p>
+                        <p className="text-xs text-gray-500 mt-1">{service.duration}</p>
                       </div>
                     </button>
                   ))}
